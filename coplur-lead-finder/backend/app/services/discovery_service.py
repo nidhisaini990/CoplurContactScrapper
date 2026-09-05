@@ -72,6 +72,12 @@ async def _build_lead(
 
     analysis = await analyze_website(domain)
 
+    # The mock search provider ships sample contact details for its
+    # organizations (since crawling the fake mock domains yields nothing);
+    # fall back to those only when live analysis found no real contact info.
+    business_email = analysis["emails"][0] if analysis["emails"] else org.get("sample_email")
+    business_phone = analysis["phones"][0] if analysis["phones"] else org.get("sample_phone")
+
     organization_data = {
         "description": result.get("snippet", ""),
         "website_text": analysis["text"],
@@ -81,7 +87,7 @@ async def _build_lead(
         "target_location": request.location,
         "keywords": request.keywords,
         "target_segment": request.target_segment,
-        "has_contact_info": bool(analysis["emails"] or analysis["phones"]),
+        "has_contact_info": bool(business_email or business_phone),
     }
 
     qualification = await qualify_lead(organization_data, ai_provider)
@@ -105,8 +111,8 @@ async def _build_lead(
         contact_name=contact_name,
         designation=designation,
         department=None,
-        business_email=analysis["emails"][0] if analysis["emails"] else None,
-        business_phone=analysis["phones"][0] if analysis["phones"] else None,
+        business_email=business_email,
+        business_phone=business_phone,
         linkedin_url=None,
         organization_linkedin=analysis.get("organization_linkedin"),
         source_url=analysis.get("source_url") or result.get("url"),
@@ -154,6 +160,9 @@ async def discover_leads(request: SearchRequest) -> list[Lead]:
             leads.append(item)
         # Exceptions and ``None`` results are silently skipped so a single
         # failing organization never aborts the overall search.
+
+    if request.require_contact_info:
+        leads = [lead for lead in leads if lead.business_email or lead.business_phone]
 
     leads.sort(key=lambda lead: lead.relevance_score, reverse=True)
     return leads[: request.limit]
