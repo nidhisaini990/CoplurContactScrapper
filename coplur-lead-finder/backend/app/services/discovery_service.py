@@ -29,7 +29,7 @@ PER_QUERY_BUFFER = int(os.getenv("PER_QUERY_BUFFER", "2"))
 def generate_search_queries(request: SearchRequest, query_count: int = DEFAULT_QUERY_COUNT) -> list[str]:
     """Build a handful of targeted search queries from the request criteria."""
     segment = request.target_segment or "organizations"
-    location = request.location or request.country or ""
+    location = ", ".join(filter(None, [request.state, request.location or request.country]))
     keyword_str = " ".join(request.keywords[:3])
     role_str = request.roles[0] if request.roles else ""
 
@@ -84,7 +84,7 @@ async def _build_lead(
         "industry": org.get("industry") or request.industry,
         "target_industry": request.industry,
         "location": ", ".join(filter(None, [org.get("city"), org.get("state"), org.get("country")])),
-        "target_location": request.location,
+        "target_location": ", ".join(filter(None, [request.state, request.location])),
         "keywords": request.keywords,
         "target_segment": request.target_segment,
         "has_contact_info": bool(business_email or business_phone),
@@ -106,7 +106,7 @@ async def _build_lead(
         industry=org.get("industry") or request.industry,
         organization_type=org.get("type"),
         city=org.get("city"),
-        state=org.get("state"),
+        state=org.get("state") or request.state,
         country=org.get("country") or request.country,
         contact_name=contact_name,
         designation=designation,
@@ -160,6 +160,10 @@ async def discover_leads(request: SearchRequest) -> list[Lead]:
             leads.append(item)
         # Exceptions and ``None`` results are silently skipped so a single
         # failing organization never aborts the overall search.
+
+    if request.state:
+        target_state = request.state.strip().lower()
+        leads = [lead for lead in leads if lead.state and target_state in lead.state.lower()]
 
     if request.require_contact_info:
         leads = [lead for lead in leads if lead.business_email or lead.business_phone]

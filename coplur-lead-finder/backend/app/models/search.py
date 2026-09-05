@@ -8,6 +8,7 @@ class SearchRequest(BaseModel):
     target_segment: str = Field(default="Engineering Colleges")
     industry: str | None = None
     location: str | None = None
+    state: str | None = None
     country: str | None = None
     keywords: list[str] = Field(default_factory=list)
     roles: list[str] = Field(default_factory=list)

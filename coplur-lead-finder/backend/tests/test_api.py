@@ -65,6 +65,24 @@ def test_export_csv_sanitizes_formula_injection():
     assert "'=SUM(A1:A2)" in body
 
 
+def test_search_leads_with_state_filter(monkeypatch):
+    monkeypatch.setenv("SEARCH_PROVIDER", "mock")
+    monkeypatch.setenv("USE_AI", "false")
+    payload = {
+        "target_segment": "Engineering Colleges",
+        "state": "Tamil Nadu",
+        "limit": 50,
+        "min_relevance_score": 0,
+    }
+    response = client.post("/api/leads/search", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total"] > 0
+    for lead in data["leads"]:
+        assert lead["state"] is not None
+        assert "tamil nadu" in lead["state"].lower()
+
+
 def test_invalid_search_request_returns_422():
     response = client.post("/api/leads/search", json={"limit": 0})
     assert response.status_code == 422
