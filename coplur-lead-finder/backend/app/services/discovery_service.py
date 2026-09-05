@@ -120,10 +120,15 @@ async def discover_leads(request: SearchRequest) -> list[Lead]:
     ai_provider = get_ai_provider()
 
     queries = generate_search_queries(request)
+    # Spread the requested limit across queries (with a small buffer to
+    # account for duplicates/qualification filtering) so we don't
+    # fetch/crawl/qualify many times more organizations than needed.
+    PER_QUERY_BUFFER = 2
+    per_query_limit = max(1, -(-request.limit // max(len(queries), 1)) + PER_QUERY_BUFFER)
     all_results: list[dict[str, Any]] = []
     for query in queries:
         try:
-            results = await search_provider.search(query, limit=request.limit)
+            results = await search_provider.search(query, limit=per_query_limit)
             all_results.extend(results)
         except Exception:
             continue  # A failing query should not abort the whole search.
