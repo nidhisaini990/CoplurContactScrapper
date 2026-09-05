@@ -100,6 +100,272 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
         ),
         "sample_decision_maker": {"name": "Arjun Menon"},
     },
+    {
+        "name": "Indian Institute of Technology Delhi",
+        "domain": "iitd.ac.in",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "New Delhi",
+        "state": "Delhi",
+        "country": "India",
+        "description": (
+            "Premier engineering institute with a training and placement "
+            "office coordinating recruitment and internship drives."
+        ),
+        "sample_decision_maker": {"name": "Rajesh Verma"},
+    },
+    {
+        "name": "National Institute of Technology Warangal",
+        "domain": "nitw.ac.in",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "Warangal",
+        "state": "Telangana",
+        "country": "India",
+        "description": (
+            "Autonomous institute of national importance with a dedicated "
+            "training and placement cell for employability initiatives."
+        ),
+        "sample_decision_maker": {"name": "Kavitha Reddy"},
+    },
+    {
+        "name": "Anna University",
+        "domain": "annauniv.edu",
+        "type": "University",
+        "industry": "Education",
+        "city": "Chennai",
+        "state": "Tamil Nadu",
+        "country": "India",
+        "description": (
+            "State technical university running centralized placement and "
+            "career services for affiliated engineering colleges."
+        ),
+        "sample_decision_maker": {"name": "Karthik Subramaniam"},
+    },
+    {
+        "name": "Pune Institute of Computer Technology",
+        "domain": "pict.edu",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "Pune",
+        "state": "Maharashtra",
+        "country": "India",
+        "description": (
+            "Autonomous engineering college with an active training and "
+            "placement cell focused on coding assessments and hiring drives."
+        ),
+        "sample_decision_maker": {"name": "Sneha Kulkarni"},
+    },
+    {
+        "name": "Jadavpur University",
+        "domain": "jadavpuruniversity.in",
+        "type": "University",
+        "industry": "Education",
+        "city": "Kolkata",
+        "state": "West Bengal",
+        "country": "India",
+        "description": (
+            "State university with an established career services office "
+            "supporting campus placements and industry tie-ups."
+        ),
+        "sample_decision_maker": {"name": "Debjani Sen"},
+    },
+    {
+        "name": "PSG College of Technology",
+        "domain": "psgtech.edu",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "Coimbatore",
+        "state": "Tamil Nadu",
+        "country": "India",
+        "description": (
+            "Autonomous engineering college with a training and placement "
+            "cell driving employability and industry-readiness programs."
+        ),
+        "sample_decision_maker": {"name": "Lakshmi Narayanan"},
+    },
+    {
+        "name": "Malaviya National Institute of Technology Jaipur",
+        "domain": "mnit.ac.in",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "Jaipur",
+        "state": "Rajasthan",
+        "country": "India",
+        "description": (
+            "Institute of national importance with a training and placement "
+            "office coordinating campus hiring and internships."
+        ),
+        "sample_decision_maker": {"name": "Vikram Singh"},
+    },
+    {
+        "name": "Birla Institute of Technology and Science Pilani",
+        "domain": "bits-pilani.ac.in",
+        "type": "University",
+        "industry": "Education",
+        "city": "Pilani",
+        "state": "Rajasthan",
+        "country": "India",
+        "description": (
+            "Deemed university with a dedicated career development centre "
+            "focused on placement and internship support for students."
+        ),
+        "sample_decision_maker": {"name": "Anjali Bhatia"},
+    },
+    {
+        "name": "Manipal Institute of Technology",
+        "domain": "manipal.edu",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "Manipal",
+        "state": "Karnataka",
+        "country": "India",
+        "description": (
+            "Constituent institute of a deemed university with a placement "
+            "cell organizing recruitment and career fairs."
+        ),
+        "sample_decision_maker": {"name": "Nikhil Shetty"},
+    },
+    {
+        "name": "SRM Institute of Science and Technology",
+        "domain": "srmist.edu.in",
+        "type": "University",
+        "industry": "Education",
+        "city": "Chennai",
+        "state": "Tamil Nadu",
+        "country": "India",
+        "description": (
+            "Deemed university with a large training and placement "
+            "department supporting employability across engineering programs."
+        ),
+        "sample_decision_maker": {"name": "Divya Ramakrishnan"},
+    },
+    {
+        "name": "Lovely Professional University",
+        "domain": "lpu.in",
+        "type": "University",
+        "industry": "Education",
+        "city": "Jalandhar",
+        "state": "Punjab",
+        "country": "India",
+        "description": (
+            "Private university with a dedicated placement office running "
+            "industry-readiness and coding assessment programs."
+        ),
+        "sample_decision_maker": {"name": "Harpreet Kaur"},
+    },
+    {
+        "name": "Amity University Noida",
+        "domain": "amity.edu",
+        "type": "University",
+        "industry": "Education",
+        "city": "Noida",
+        "state": "Uttar Pradesh",
+        "country": "India",
+        "description": (
+            "Private university with a training and placement cell managing "
+            "campus recruitment and employability initiatives."
+        ),
+        "sample_decision_maker": {"name": "Rohit Malhotra"},
+    },
+    {
+        "name": "Guru Gobind Singh Indraprastha University",
+        "domain": "ipu.ac.in",
+        "type": "University",
+        "industry": "Education",
+        "city": "New Delhi",
+        "state": "Delhi",
+        "country": "India",
+        "description": (
+            "State university coordinating training and placement activities "
+            "for affiliated engineering colleges."
+        ),
+        "sample_decision_maker": {"name": "Neha Gupta"},
+    },
+    {
+        "name": "College of Engineering Pune",
+        "domain": "coep.org.in",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "Pune",
+        "state": "Maharashtra",
+        "country": "India",
+        "description": (
+            "Autonomous engineering college with a training and placement "
+            "office focused on industry hiring and skill assessments."
+        ),
+        "sample_decision_maker": {"name": "Mahesh Joshi"},
+    },
+    {
+        "name": "Vishwakarma Institute of Technology",
+        "domain": "vit.edu",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "Pune",
+        "state": "Maharashtra",
+        "country": "India",
+        "description": (
+            "Autonomous institute with an active placement cell coordinating "
+            "employability and coding assessment drives."
+        ),
+        "sample_decision_maker": {"name": "Snehal Deshmukh"},
+    },
+    {
+        "name": "Sardar Vallabhbhai National Institute of Technology",
+        "domain": "svnit.ac.in",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "Surat",
+        "state": "Gujarat",
+        "country": "India",
+        "description": (
+            "Institute of national importance with a training and placement "
+            "cell driving campus hiring initiatives."
+        ),
+        "sample_decision_maker": {"name": "Bhavesh Patel"},
+    },
+    {
+        "name": "Chandigarh University",
+        "domain": "cuchd.in",
+        "type": "University",
+        "industry": "Education",
+        "city": "Mohali",
+        "state": "Punjab",
+        "country": "India",
+        "description": (
+            "Private university with a dedicated placement office running "
+            "employability and industry readiness programs."
+        ),
+        "sample_decision_maker": {"name": "Simran Kaur"},
+    },
+    {
+        "name": "Delhi Technological University",
+        "domain": "dtu.ac.in",
+        "type": "Engineering College",
+        "industry": "Education",
+        "city": "New Delhi",
+        "state": "Delhi",
+        "country": "India",
+        "description": (
+            "State university with a training and placement cell "
+            "coordinating recruitment and internship drives."
+        ),
+        "sample_decision_maker": {"name": "Ankit Sharma"},
+    },
+    {
+        "name": "Jawaharlal Nehru Technological University Hyderabad",
+        "domain": "jntuh.ac.in",
+        "type": "University",
+        "industry": "Education",
+        "city": "Hyderabad",
+        "state": "Telangana",
+        "country": "India",
+        "description": (
+            "State technical university coordinating placement activities "
+            "for affiliated engineering colleges across the state."
+        ),
+        "sample_decision_maker": {"name": "Srinivas Rao"},
+    },
 ]
 
 

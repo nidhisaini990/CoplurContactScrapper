@@ -24,6 +24,7 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
   const [roles, setRoles] = useState("Training and Placement Officer, Placement Director");
   const [limit, setLimit] = useState(20);
   const [minRelevanceScore, setMinRelevanceScore] = useState(60);
+  const [requireContactInfo, setRequireContactInfo] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -41,6 +42,7 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
         .filter(Boolean),
       limit,
       min_relevance_score: minRelevanceScore,
+      require_contact_info: requireContactInfo,
     });
   };
 
@@ -102,6 +104,16 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Searching…" : "Find Potential Leads"}
         </button>
+      </div>
+      <div className="form-row">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={requireContactInfo}
+            onChange={(e) => setRequireContactInfo(e.target.checked)}
+          />
+          Only show leads with an email or phone number
+        </label>
       </div>
     </form>
   );

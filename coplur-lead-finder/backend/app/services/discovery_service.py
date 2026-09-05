@@ -155,5 +155,8 @@ async def discover_leads(request: SearchRequest) -> list[Lead]:
         # Exceptions and ``None`` results are silently skipped so a single
         # failing organization never aborts the overall search.
 
+    if request.require_contact_info:
+        leads = [lead for lead in leads if lead.business_email or lead.business_phone]
+
     leads.sort(key=lambda lead: lead.relevance_score, reverse=True)
     return leads[: request.limit]

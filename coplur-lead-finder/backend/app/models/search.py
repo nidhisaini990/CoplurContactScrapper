@@ -13,6 +13,7 @@ class SearchRequest(BaseModel):
     roles: list[str] = Field(default_factory=list)
     limit: int = Field(default=20, ge=1, le=200)
     min_relevance_score: int = Field(default=60, ge=0, le=100)
+    require_contact_info: bool = Field(default=False)
 
 
 class SearchResponse(BaseModel):

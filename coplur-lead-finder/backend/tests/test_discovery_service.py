@@ -60,3 +60,37 @@ async def test_discover_leads_filters_by_min_relevance_score(monkeypatch):
     request = _make_request(min_relevance_score=100)
     leads = await discover_leads(request)
     assert leads == []
+
+
+async def test_discover_leads_require_contact_info_filters_out_leads_without_contact(monkeypatch):
+    import app.services.discovery_service as discovery_service
+
+    monkeypatch.setenv("SEARCH_PROVIDER", "mock")
+    monkeypatch.setenv("USE_AI", "false")
+
+    async def fake_analyze_website(domain):
+        # Only "give" contact info to one specific domain so we can verify
+        # the rest are filtered out when `require_contact_info` is set.
+        if domain == "iitd.ac.in":
+            return {
+                "text": "",
+                "emails": ["placements@iitd.ac.in"],
+                "phones": [],
+                "organization_linkedin": None,
+                "source_url": None,
+            }
+        return {
+            "text": "",
+            "emails": [],
+            "phones": [],
+            "organization_linkedin": None,
+            "source_url": None,
+        }
+
+    monkeypatch.setattr(discovery_service, "analyze_website", fake_analyze_website)
+
+    request = _make_request(limit=50, min_relevance_score=0, require_contact_info=True)
+    leads = await discovery_service.discover_leads(request)
+
+    assert len(leads) > 0
+    assert all(lead.business_email or lead.business_phone for lead in leads)

@@ -33,6 +33,7 @@ export interface SearchRequest {
   roles: string[];
   limit: number;
   min_relevance_score: number;
+  require_contact_info: boolean;
 }
 
 export interface SearchResponse {
