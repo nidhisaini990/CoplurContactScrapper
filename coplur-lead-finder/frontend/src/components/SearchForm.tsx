@@ -12,7 +12,7 @@ interface SegmentDefaults {
   roles: string;
 }
 
-const SEGMENT_DEFAULTS: Record<string, SegmentDefaults> = {
+const SEGMENT_DEFAULTS: Partial<Record<string, SegmentDefaults>> = {
   "Engineering Colleges": {
     industry: "Education",
     keywords: "placement, employability, coding assessment",
