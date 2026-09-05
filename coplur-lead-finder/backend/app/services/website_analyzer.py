@@ -40,7 +40,22 @@ MAX_REDIRECTS = 3
 
 _LINKEDIN_RE = re.compile(r"https?://(?:www\.)?linkedin\.com/[\w\-/%.]+", re.IGNORECASE)
 
-_semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
+_semaphore: asyncio.Semaphore | None = None
+
+
+def _get_semaphore() -> asyncio.Semaphore:
+    """Lazily create the concurrency-limiting semaphore on first use.
+
+    Creating it eagerly at module-import time could bind it to whichever
+    event loop happens to be running then (or none at all), which can break
+    if the module is imported before a loop starts or if multiple event
+    loops run in the same process (e.g. across test cases). Creating it on
+    first use inside a running loop avoids that pitfall.
+    """
+    global _semaphore
+    if _semaphore is None:
+        _semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
+    return _semaphore
 
 
 async def _resolve_public_ip(host: str) -> str | None:
@@ -111,7 +126,7 @@ async def _fetch_page(client: httpx.AsyncClient, url: str) -> str | None:
             if not ip:
                 return None
             pinned_url = _with_pinned_host(current_url, ip)
-            async with _semaphore:
+            async with _get_semaphore():
                 response = await client.get(
                     pinned_url,
                     timeout=REQUEST_TIMEOUT,
