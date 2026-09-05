@@ -36,7 +36,7 @@ CANDIDATE_PATHS = [
 MAX_PAGES_PER_DOMAIN = int(os.getenv("MAX_PAGES_PER_DOMAIN", "5"))
 MAX_CONCURRENT_REQUESTS = int(os.getenv("MAX_CONCURRENT_REQUESTS", "5"))
 REQUEST_TIMEOUT = float(os.getenv("REQUEST_TIMEOUT", "10"))
-MAX_REDIRECTS = 3
+MAX_REDIRECTS = int(os.getenv("MAX_REDIRECTS", "3"))
 
 _LINKEDIN_RE = re.compile(r"https?://(?:www\.)?linkedin\.com/[\w\-/%.]+", re.IGNORECASE)
 

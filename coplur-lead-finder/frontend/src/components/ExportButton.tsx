@@ -23,7 +23,8 @@ export default function ExportButton({ leads }: ExportButtonProps) {
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
-    } catch {
+    } catch (err) {
+      console.error("Failed to export leads to CSV", err);
       setError("Failed to export CSV. Please try again.");
     } finally {
       setIsExporting(false);
