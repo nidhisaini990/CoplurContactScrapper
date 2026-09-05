@@ -54,6 +54,18 @@ async def test_discover_leads_returns_sorted_results_within_limit(monkeypatch):
     assert scores == sorted(scores, reverse=True)
 
 
+async def test_discover_leads_mock_provider_includes_sample_contact_info(monkeypatch):
+    # Live network analysis of the mock provider's fake domains normally
+    # finds nothing; every mock organization ships sample contact details so
+    # leads always surface an email or phone regardless of target segment.
+    monkeypatch.setenv("SEARCH_PROVIDER", "mock")
+    monkeypatch.setenv("USE_AI", "false")
+    request = _make_request(limit=50, min_relevance_score=0)
+    leads = await discover_leads(request)
+    assert len(leads) > 0
+    assert all(lead.business_email or lead.business_phone for lead in leads)
+
+
 async def test_discover_leads_filters_by_min_relevance_score(monkeypatch):
     monkeypatch.setenv("SEARCH_PROVIDER", "mock")
     monkeypatch.setenv("USE_AI", "false")
@@ -65,20 +77,11 @@ async def test_discover_leads_filters_by_min_relevance_score(monkeypatch):
 async def test_discover_leads_require_contact_info_filters_out_leads_without_contact(monkeypatch):
     import app.services.discovery_service as discovery_service
 
-    monkeypatch.setenv("SEARCH_PROVIDER", "mock")
     monkeypatch.setenv("USE_AI", "false")
 
     async def fake_analyze_website(domain):
-        # Only "give" contact info to one specific domain so we can verify
-        # the rest are filtered out when `require_contact_info` is set.
-        if domain == "iitd.ac.in":
-            return {
-                "text": "",
-                "emails": ["placements@iitd.ac.in"],
-                "phones": [],
-                "organization_linkedin": None,
-                "source_url": None,
-            }
+        # Live analysis never finds contact info in this test; leads should
+        # only pick up contact details via each organization's sample data.
         return {
             "text": "",
             "emails": [],
@@ -87,10 +90,36 @@ async def test_discover_leads_require_contact_info_filters_out_leads_without_con
             "source_url": None,
         }
 
+    class FakeSearchProvider:
+        async def search(self, query, limit=10):
+            return [
+                {
+                    "title": "Has Contact College",
+                    "url": "https://has-contact.example.edu",
+                    "snippet": "placement training",
+                    "organization": {
+                        "name": "Has Contact College",
+                        "domain": "has-contact.example.edu",
+                        "sample_email": "placements@has-contact.example.edu",
+                    },
+                },
+                {
+                    "title": "No Contact College",
+                    "url": "https://no-contact.example.edu",
+                    "snippet": "placement training",
+                    "organization": {
+                        "name": "No Contact College",
+                        "domain": "no-contact.example.edu",
+                    },
+                },
+            ]
+
     monkeypatch.setattr(discovery_service, "analyze_website", fake_analyze_website)
+    monkeypatch.setattr(discovery_service, "get_search_provider", lambda: FakeSearchProvider())
 
     request = _make_request(limit=50, min_relevance_score=0, require_contact_info=True)
     leads = await discovery_service.discover_leads(request)
 
-    assert len(leads) > 0
-    assert all(lead.business_email or lead.business_phone for lead in leads)
+    assert len(leads) == 1
+    assert leads[0].organization_name == "Has Contact College"
+    assert leads[0].business_email == "placements@has-contact.example.edu"

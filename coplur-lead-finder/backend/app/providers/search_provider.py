@@ -28,6 +28,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "placement cell focused on employability and coding assessments."
         ),
         "sample_decision_maker": {"name": "Anita Sharma"},
+        "sample_email": "placements@vie.ac.in",
+        "sample_phone": "+91-11-20000000",
     },
     {
         "name": "Deccan University of Technology",
@@ -42,6 +44,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "relations office driving campus hiring and placement drives."
         ),
         "sample_decision_maker": {"name": "Ravi Kumar"},
+        "sample_email": "placements@deccanuniv.edu.in",
+        "sample_phone": "+91-22-20000137",
     },
     {
         "name": "Nexora Softworks Pvt Ltd",
@@ -56,6 +60,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "technical interview evaluation programs for engineering talent."
         ),
         "sample_decision_maker": {"name": "Priya Nair"},
+        "sample_email": "placements@nexorasoft.com",
+        "sample_phone": "+91-33-20000274",
     },
     {
         "name": "Bright Future Skill Academy",
@@ -71,6 +77,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "interviews."
         ),
         "sample_decision_maker": {"name": "Suresh Iyer"},
+        "sample_email": "placements@brightfutureskills.in",
+        "sample_phone": "+91-44-20000411",
     },
     {
         "name": "Coastal Institute of Technology",
@@ -85,6 +93,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "career services team supporting employability initiatives."
         ),
         "sample_decision_maker": {"name": "Meera Pillai"},
+        "sample_email": "placements@coastaltech.ac.in",
+        "sample_phone": "+91-40-20000548",
     },
     {
         "name": "Vertex Talent Solutions",
@@ -99,6 +109,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "assessments for enterprise hiring managers."
         ),
         "sample_decision_maker": {"name": "Arjun Menon"},
+        "sample_email": "placements@vertextalent.com",
+        "sample_phone": "+91-20-20000685",
     },
     {
         "name": "Indian Institute of Technology Delhi",
@@ -113,6 +125,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "office coordinating recruitment and internship drives."
         ),
         "sample_decision_maker": {"name": "Rajesh Verma"},
+        "sample_email": "placements@iitd.ac.in",
+        "sample_phone": "+91-80-20000822",
     },
     {
         "name": "National Institute of Technology Warangal",
@@ -127,6 +141,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "training and placement cell for employability initiatives."
         ),
         "sample_decision_maker": {"name": "Kavitha Reddy"},
+        "sample_email": "placements@nitw.ac.in",
+        "sample_phone": "+91-79-20000959",
     },
     {
         "name": "Anna University",
@@ -141,6 +157,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "career services for affiliated engineering colleges."
         ),
         "sample_decision_maker": {"name": "Karthik Subramaniam"},
+        "sample_email": "placements@annauniv.edu",
+        "sample_phone": "+91-141-20001096",
     },
     {
         "name": "Pune Institute of Computer Technology",
@@ -155,6 +173,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "placement cell focused on coding assessments and hiring drives."
         ),
         "sample_decision_maker": {"name": "Sneha Kulkarni"},
+        "sample_email": "placements@pict.edu",
+        "sample_phone": "+91-281-20001233",
     },
     {
         "name": "Jadavpur University",
@@ -169,6 +189,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "supporting campus placements and industry tie-ups."
         ),
         "sample_decision_maker": {"name": "Debjani Sen"},
+        "sample_email": "placements@jadavpuruniversity.in",
+        "sample_phone": "+91-422-20001370",
     },
     {
         "name": "PSG College of Technology",
@@ -183,6 +205,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "cell driving employability and industry-readiness programs."
         ),
         "sample_decision_maker": {"name": "Lakshmi Narayanan"},
+        "sample_email": "placements@psgtech.edu",
+        "sample_phone": "+91-471-20001507",
     },
     {
         "name": "Malaviya National Institute of Technology Jaipur",
@@ -197,6 +221,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "office coordinating campus hiring and internships."
         ),
         "sample_decision_maker": {"name": "Vikram Singh"},
+        "sample_email": "placements@mnit.ac.in",
+        "sample_phone": "+91-11-20001644",
     },
     {
         "name": "Birla Institute of Technology and Science Pilani",
@@ -211,6 +237,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "focused on placement and internship support for students."
         ),
         "sample_decision_maker": {"name": "Anjali Bhatia"},
+        "sample_email": "placements@bits-pilani.ac.in",
+        "sample_phone": "+91-22-20001781",
     },
     {
         "name": "Manipal Institute of Technology",
@@ -225,6 +253,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "cell organizing recruitment and career fairs."
         ),
         "sample_decision_maker": {"name": "Nikhil Shetty"},
+        "sample_email": "placements@manipal.edu",
+        "sample_phone": "+91-33-20001918",
     },
     {
         "name": "SRM Institute of Science and Technology",
@@ -239,6 +269,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "department supporting employability across engineering programs."
         ),
         "sample_decision_maker": {"name": "Divya Ramakrishnan"},
+        "sample_email": "placements@srmist.edu.in",
+        "sample_phone": "+91-44-20002055",
     },
     {
         "name": "Lovely Professional University",
@@ -253,6 +285,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "industry-readiness and coding assessment programs."
         ),
         "sample_decision_maker": {"name": "Harpreet Kaur"},
+        "sample_email": "placements@lpu.in",
+        "sample_phone": "+91-40-20002192",
     },
     {
         "name": "Amity University Noida",
@@ -267,6 +301,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "campus recruitment and employability initiatives."
         ),
         "sample_decision_maker": {"name": "Rohit Malhotra"},
+        "sample_email": "placements@amity.edu",
+        "sample_phone": "+91-20-20002329",
     },
     {
         "name": "Guru Gobind Singh Indraprastha University",
@@ -281,6 +317,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "for affiliated engineering colleges."
         ),
         "sample_decision_maker": {"name": "Neha Gupta"},
+        "sample_email": "placements@ipu.ac.in",
+        "sample_phone": "+91-80-20002466",
     },
     {
         "name": "College of Engineering Pune",
@@ -295,6 +333,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "office focused on industry hiring and skill assessments."
         ),
         "sample_decision_maker": {"name": "Mahesh Joshi"},
+        "sample_email": "placements@coep.org.in",
+        "sample_phone": "+91-79-20002603",
     },
     {
         "name": "Vishwakarma Institute of Technology",
@@ -309,6 +349,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "employability and coding assessment drives."
         ),
         "sample_decision_maker": {"name": "Snehal Deshmukh"},
+        "sample_email": "placements@vit.edu",
+        "sample_phone": "+91-141-20002740",
     },
     {
         "name": "Sardar Vallabhbhai National Institute of Technology",
@@ -323,6 +365,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "cell driving campus hiring initiatives."
         ),
         "sample_decision_maker": {"name": "Bhavesh Patel"},
+        "sample_email": "placements@svnit.ac.in",
+        "sample_phone": "+91-281-20002877",
     },
     {
         "name": "Chandigarh University",
@@ -337,6 +381,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "employability and industry readiness programs."
         ),
         "sample_decision_maker": {"name": "Simran Kaur"},
+        "sample_email": "placements@cuchd.in",
+        "sample_phone": "+91-422-20003014",
     },
     {
         "name": "Delhi Technological University",
@@ -351,6 +397,8 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "coordinating recruitment and internship drives."
         ),
         "sample_decision_maker": {"name": "Ankit Sharma"},
+        "sample_email": "placements@dtu.ac.in",
+        "sample_phone": "+91-471-20003151",
     },
     {
         "name": "Jawaharlal Nehru Technological University Hyderabad",
@@ -365,6 +413,168 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
             "for affiliated engineering colleges across the state."
         ),
         "sample_decision_maker": {"name": "Srinivas Rao"},
+        "sample_email": "placements@jntuh.ac.in",
+        "sample_phone": "+91-11-20003288",
+    },
+    {
+        "name": "Bhartiya Skill Development University",
+        "domain": "bsdu.org.in",
+        "type": "Skill Development Organization",
+        "industry": "Education",
+        "city": "Jaipur",
+        "state": "Rajasthan",
+        "country": "India",
+        "description": (
+            "Skill development university offering vocational training and "
+            "employability programs backed by an industry placement cell."
+        ),
+        "sample_decision_maker": {"name": "Deepak Choudhary"},
+        "sample_email": "placements@bsdu.org.in",
+        "sample_phone": "+91-141-20003425",
+    },
+    {
+        "name": "National Skill Training Institute",
+        "domain": "nsti.gov.in",
+        "type": "Skill Development Organization",
+        "industry": "Education",
+        "city": "Chennai",
+        "state": "Tamil Nadu",
+        "country": "India",
+        "description": (
+            "Government-run vocational training institute with a placement "
+            "cell coordinating apprenticeships and industry hiring."
+        ),
+        "sample_decision_maker": {"name": "Geetha Krishnan"},
+        "sample_email": "placements@nsti.gov.in",
+        "sample_phone": "+91-44-20003562",
+    },
+    {
+        "name": "National Institute for Entrepreneurship and Small Business Development",
+        "domain": "niesbud.nic.in",
+        "type": "Professional Training Institute",
+        "industry": "Education",
+        "city": "New Delhi",
+        "state": "Delhi",
+        "country": "India",
+        "description": (
+            "Professional training institute running entrepreneurship and "
+            "skill-building programs with a career services office."
+        ),
+        "sample_decision_maker": {"name": "Manoj Tiwari"},
+        "sample_email": "placements@niesbud.nic.in",
+        "sample_phone": "+91-11-20003699",
+    },
+    {
+        "name": "Institute of Chartered Financial Analysts of India",
+        "domain": "icfai.org",
+        "type": "Professional Training Institute",
+        "industry": "Education",
+        "city": "Hyderabad",
+        "state": "Telangana",
+        "country": "India",
+        "description": (
+            "Professional training and certification institute with a "
+            "career services office supporting placement drives."
+        ),
+        "sample_decision_maker": {"name": "Ramesh Chandra"},
+        "sample_email": "placements@icfai.org",
+        "sample_phone": "+91-40-20003836",
+    },
+    {
+        "name": "Byju's Learning Solutions",
+        "domain": "byjuslearning.example.com",
+        "type": "EdTech Organization",
+        "industry": "Education Technology",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "country": "India",
+        "description": (
+            "EdTech organization running large-scale campus hiring and "
+            "technical assessment programs for content and engineering roles."
+        ),
+        "sample_decision_maker": {"name": "Aditi Rao"},
+        "sample_email": "careers@byjuslearning.example.com",
+        "sample_phone": "+91-80-20003973",
+    },
+    {
+        "name": "Vedantu Innovations",
+        "domain": "vedantuinnovations.example.com",
+        "type": "EdTech Organization",
+        "industry": "Education Technology",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "country": "India",
+        "description": (
+            "EdTech company with a dedicated talent acquisition team hiring "
+            "for coding assessment and content development roles."
+        ),
+        "sample_decision_maker": {"name": "Kunal Bhatia"},
+        "sample_email": "careers@vedantuinnovations.example.com",
+        "sample_phone": "+91-80-20004110",
+    },
+    {
+        "name": "Coastal Institute of Technical Education",
+        "domain": "coastaltechedu.ac.in",
+        "type": "Technical Institute",
+        "industry": "Education",
+        "city": "Visakhapatnam",
+        "state": "Andhra Pradesh",
+        "country": "India",
+        "description": (
+            "Technical institute with a placement director and career "
+            "services team supporting employability initiatives."
+        ),
+        "sample_decision_maker": {"name": "Satya Prakash"},
+        "sample_email": "placements@coastaltechedu.ac.in",
+        "sample_phone": "+91-79-20004247",
+    },
+    {
+        "name": "Northern Institute of Polytechnic",
+        "domain": "nipolytechnic.ac.in",
+        "type": "Technical Institute",
+        "industry": "Education",
+        "city": "Lucknow",
+        "state": "Uttar Pradesh",
+        "country": "India",
+        "description": (
+            "Polytechnic institute with a training and placement wing "
+            "supporting industry-readiness assessments for diploma students."
+        ),
+        "sample_decision_maker": {"name": "Alok Mishra"},
+        "sample_email": "placements@nipolytechnic.ac.in",
+        "sample_phone": "+91-522-20004384",
+    },
+    {
+        "name": "Aarohi Technologies Pvt Ltd",
+        "domain": "aarohitech.example.com",
+        "type": "Company",
+        "industry": "Information Technology",
+        "city": "Hyderabad",
+        "state": "Telangana",
+        "country": "India",
+        "description": (
+            "IT services company running campus hiring and technical "
+            "interview evaluation programs for engineering talent."
+        ),
+        "sample_decision_maker": {"name": "Farah Sheikh"},
+        "sample_email": "careers@aarohitech.example.com",
+        "sample_phone": "+91-40-20004521",
+    },
+    {
+        "name": "Zenith Workforce Solutions",
+        "domain": "zenithworkforce.example.com",
+        "type": "Company",
+        "industry": "Recruitment",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "country": "India",
+        "description": (
+            "Workforce staffing company evaluating candidate skill "
+            "assessments for enterprise hiring managers."
+        ),
+        "sample_decision_maker": {"name": "Vivaan Kapoor"},
+        "sample_email": "careers@zenithworkforce.example.com",
+        "sample_phone": "+91-22-20004658",
     },
 ]
 
