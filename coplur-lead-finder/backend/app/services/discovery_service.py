@@ -20,6 +20,10 @@ from app.utils.domain_utils import normalize_domain
 from app.utils.text_cleaner import clean_text
 
 DEFAULT_QUERY_COUNT = int(os.getenv("DEFAULT_QUERY_COUNT", "5"))
+# Small buffer added to the even split of `request.limit` across queries, to
+# account for duplicate organizations and leads filtered out by
+# qualification, without over-fetching many times more than needed.
+PER_QUERY_BUFFER = int(os.getenv("PER_QUERY_BUFFER", "2"))
 
 
 def generate_search_queries(request: SearchRequest, query_count: int = DEFAULT_QUERY_COUNT) -> list[str]:
@@ -123,7 +127,6 @@ async def discover_leads(request: SearchRequest) -> list[Lead]:
     # Spread the requested limit across queries (with a small buffer to
     # account for duplicates/qualification filtering) so we don't
     # fetch/crawl/qualify many times more organizations than needed.
-    PER_QUERY_BUFFER = 2
     per_query_limit = max(1, -(-request.limit // max(len(queries), 1)) + PER_QUERY_BUFFER)
     all_results: list[dict[str, Any]] = []
     for query in queries:

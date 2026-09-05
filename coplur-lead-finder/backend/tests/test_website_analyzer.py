@@ -1,45 +1,45 @@
 import httpx
 import pytest
 
-from app.services.website_analyzer import _fetch_page, _is_public_host
+from app.services.website_analyzer import _fetch_page, _resolve_public_ip
 
 
 @pytest.mark.asyncio
-async def test_is_public_host_rejects_private_ip(monkeypatch):
+async def test_resolve_public_ip_rejects_private_ip(monkeypatch):
     def fake_getaddrinfo(host, port):
         return [(None, None, None, None, ("127.0.0.1", 0))]
 
     monkeypatch.setattr("socket.getaddrinfo", fake_getaddrinfo)
-    assert await _is_public_host("internal.example") is False
+    assert await _resolve_public_ip("internal.example") is None
 
 
 @pytest.mark.asyncio
-async def test_is_public_host_rejects_link_local_metadata_ip(monkeypatch):
+async def test_resolve_public_ip_rejects_link_local_metadata_ip(monkeypatch):
     def fake_getaddrinfo(host, port):
         return [(None, None, None, None, ("169.254.169.254", 0))]
 
     monkeypatch.setattr("socket.getaddrinfo", fake_getaddrinfo)
-    assert await _is_public_host("metadata.example") is False
+    assert await _resolve_public_ip("metadata.example") is None
 
 
 @pytest.mark.asyncio
-async def test_is_public_host_accepts_public_ip(monkeypatch):
+async def test_resolve_public_ip_accepts_public_ip(monkeypatch):
     def fake_getaddrinfo(host, port):
         return [(None, None, None, None, ("93.184.216.34", 0))]
 
     monkeypatch.setattr("socket.getaddrinfo", fake_getaddrinfo)
-    assert await _is_public_host("example.com") is True
+    assert await _resolve_public_ip("example.com") == "93.184.216.34"
 
 
 @pytest.mark.asyncio
-async def test_is_public_host_rejects_unresolvable_host(monkeypatch):
+async def test_resolve_public_ip_rejects_unresolvable_host(monkeypatch):
     import socket
 
     def fake_getaddrinfo(host, port):
         raise socket.gaierror("not found")
 
     monkeypatch.setattr("socket.getaddrinfo", fake_getaddrinfo)
-    assert await _is_public_host("does-not-resolve.invalid") is False
+    assert await _resolve_public_ip("does-not-resolve.invalid") is None
 
 
 @pytest.mark.asyncio

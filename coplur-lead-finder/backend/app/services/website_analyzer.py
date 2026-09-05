@@ -43,31 +43,38 @@ _LINKEDIN_RE = re.compile(r"https?://(?:www\.)?linkedin\.com/[\w\-/%.]+", re.IGN
 _semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
 
 
-async def _is_public_host(host: str) -> bool:
-    """Resolve ``host`` and confirm every address is a public, routable IP.
+async def _resolve_public_ip(host: str) -> str | None:
+    """Resolve ``host`` and return a single public, routable IP address to
+    pin the connection to, or ``None`` if the host is missing, unresolvable,
+    or resolves to any private/internal address.
 
     This guards against SSRF: without it, a malicious/misleading search
     result domain could point at internal infrastructure (loopback,
     link-local, private ranges, or cloud metadata endpoints like
-    169.254.169.254) and trick the server into fetching it.
+    169.254.169.254) and trick the server into fetching it. Pinning the
+    connection to the specific IP we validated (instead of re-resolving the
+    hostname when the request is actually sent) also closes the
+    TOCTOU/DNS-rebinding gap where a hostname could resolve to a different,
+    private address between validation and the actual connection.
     """
     if not host:
-        return False
+        return None
     try:
         loop = asyncio.get_running_loop()
         infos = await loop.run_in_executor(None, socket.getaddrinfo, host, None)
     except (socket.gaierror, UnicodeError):
-        return False
+        return None
 
     if not infos:
-        return False
+        return None
 
+    addresses: list[str] = []
     for info in infos:
         address = info[4][0]
         try:
             ip = ipaddress.ip_address(address)
         except ValueError:
-            return False
+            return None
         if (
             ip.is_private
             or ip.is_loopback
@@ -76,23 +83,41 @@ async def _is_public_host(host: str) -> bool:
             or ip.is_multicast
             or ip.is_unspecified
         ):
-            return False
-    return True
+            return None
+        addresses.append(address)
+    return addresses[0] if addresses else None
+
+
+def _with_pinned_host(url: str, ip: str) -> str:
+    """Rewrite ``url`` so its network location points directly at ``ip``,
+    keeping the original scheme, port and path intact.
+    """
+    parsed = urlparse(url)
+    port = parsed.port or (443 if parsed.scheme == "https" else 80)
+    netloc_host = f"[{ip}]" if ":" in ip else ip
+    return parsed._replace(netloc=f"{netloc_host}:{port}").geturl()
 
 
 async def _fetch_page(client: httpx.AsyncClient, url: str) -> str | None:
-    """Fetch ``url``, manually validating the host of every redirect hop so a
-    same-domain redirect cannot be used to reach internal infrastructure.
+    """Fetch ``url``, manually validating and pinning the host of every
+    redirect hop so a same-domain redirect (or DNS rebinding) cannot be used
+    to reach internal infrastructure.
     """
-    current_url = url
+    current_url = url  # Logical URL (real hostname), used for redirect resolution.
     try:
         for _ in range(MAX_REDIRECTS + 1):
             host = urlparse(current_url).hostname or ""
-            if not await _is_public_host(host):
+            ip = await _resolve_public_ip(host)
+            if not ip:
                 return None
+            pinned_url = _with_pinned_host(current_url, ip)
             async with _semaphore:
                 response = await client.get(
-                    current_url, timeout=REQUEST_TIMEOUT, follow_redirects=False
+                    pinned_url,
+                    timeout=REQUEST_TIMEOUT,
+                    follow_redirects=False,
+                    headers={"Host": host},
+                    extensions={"sni_hostname": host},
                 )
             if response.is_redirect:
                 next_url = response.headers.get("location")
@@ -116,7 +141,7 @@ async def analyze_website(domain: str) -> dict[str, Any]:
     single bad website cannot break the overall search.
     """
     domain = normalize_domain(domain)
-    if not domain or not await _is_public_host(domain):
+    if not domain or not await _resolve_public_ip(domain):
         return {
             "text": "",
             "emails": [],
