@@ -16,6 +16,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [filterText, setFilterText] = useState("");
+  const [selectedState, setSelectedState] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
 
   const handleSearch = async (request: SearchRequest) => {
@@ -37,9 +38,16 @@ function App() {
   };
 
   const filteredLeads = useMemo(() => {
+    let result = leads;
+    if (selectedState) {
+      const targetState = selectedState.toLowerCase();
+      result = result.filter(
+        (lead) => lead.state && lead.state.toLowerCase().includes(targetState)
+      );
+    }
     const query = filterText.trim().toLowerCase();
-    if (!query) return leads;
-    return leads.filter((lead) =>
+    if (!query) return result;
+    return result.filter((lead) =>
       [
         lead.organization_name,
         lead.contact_name,
@@ -51,7 +59,7 @@ function App() {
         .filter(Boolean)
         .some((value) => value!.toLowerCase().includes(query))
     );
-  }, [leads, filterText]);
+  }, [leads, filterText, selectedState]);
 
   const handleToggleSelect = (index: number) => {
     const key = leadKey(filteredLeads[index]);
@@ -111,6 +119,8 @@ function App() {
             <LeadFilters
               filterText={filterText}
               onFilterChange={setFilterText}
+              selectedState={selectedState}
+              onStateChange={setSelectedState}
               totalCount={leads.length}
               filteredCount={filteredLeads.length}
             />

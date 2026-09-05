@@ -28,6 +28,7 @@ export interface SearchRequest {
   target_segment: string;
   industry?: string;
   location?: string;
+  state?: string;
   country?: string;
   keywords: string[];
   roles: string[];

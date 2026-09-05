@@ -123,3 +123,15 @@ async def test_discover_leads_require_contact_info_filters_out_leads_without_con
     assert len(leads) == 1
     assert leads[0].organization_name == "Has Contact College"
     assert leads[0].business_email == "placements@has-contact.example.edu"
+
+
+async def test_discover_leads_filters_by_state(monkeypatch):
+    monkeypatch.setenv("SEARCH_PROVIDER", "mock")
+    monkeypatch.setenv("USE_AI", "false")
+    request = _make_request(state="Maharashtra", limit=50, min_relevance_score=0)
+    leads = await discover_leads(request)
+    assert len(leads) > 0
+    for lead in leads:
+        assert lead.state is not None
+        assert "maharashtra" in lead.state.lower()
+

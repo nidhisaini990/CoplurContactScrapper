@@ -131,10 +131,15 @@
   gap: 12px;
 }
 
-.lead-filters input {
+.lead-filters input,
+.lead-filters select {
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.lead-filters input {
   min-width: 260px;
 }
 
