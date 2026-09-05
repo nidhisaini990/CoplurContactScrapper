@@ -12,11 +12,17 @@ class SearchProvider(ABC):
     """Abstract interface for a search provider."""
 
     @abstractmethod
-    async def search(self, query: str, limit: int = 10) -> list[dict[str, Any]]:
+    async def search(
+        self, query: str, limit: int = 10, page: int = 1
+    ) -> list[dict[str, Any]]:
         """Run a search query and return a list of results.
 
         Each result should be a dict with at least ``title``, ``url`` and
         ``snippet`` keys.
+
+        ``page`` is the 1-based page number of size ``limit``; providers
+        translate it into their own offset/start parameters so the
+        discovery service can walk deep into the result set.
         """
         raise NotImplementedError
 

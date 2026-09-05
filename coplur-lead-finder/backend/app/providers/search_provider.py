@@ -579,16 +579,130 @@ _MOCK_ORGANIZATIONS: list[dict[str, Any]] = [
 ]
 
 
+def _parse_city_state(query: str) -> tuple[str | None, str | None]:
+    """Extract a known city and/or state mentioned in the query text."""
+    lowered = query.lower()
+    matched_state = next(
+        (s for s in _STATE_SET if f" {s} " in f" {lowered} "),
+        None,
+    )
+    matched_city = None
+    for city in _CITY_TO_STATE:
+        if f" {city} " in f" {lowered} ":
+            matched_city = city
+            break
+    return matched_city, matched_state
+
+
+def _slugify(text: str) -> str:
+    return _NON_ALNUM_RE.sub("", text.lower())
+
+
+def _generate_synthetic_organizations() -> list[dict[str, Any]]:
+    """Generate a large, deterministic set of synthetic organizations.
+
+    One institution per (state, city, type, index) gives thousands of
+    plausible, geographically diverse organizations so the mock provider can
+    exercise granular state/city-level searches at scale without any network
+    access. Names/domains are fictional but shaped like real institutions.
+    """
+    name_formats = [
+        "{city} Institute of Technology",
+        "{city} Engineering College",
+        "{city} College of Engineering and Technology",
+        "National Institute of Technology {city}",
+        "{city} Technical Institute",
+        "{city} Institute of Science and Technology",
+        "{city} University",
+        "Institute of Technology and Management {city}",
+        "{city} School of Engineering",
+        "{city} College of Technology",
+    ]
+    type_by_format = {
+        0: "Engineering College",
+        1: "Engineering College",
+        2: "Engineering College",
+        3: "Engineering College",
+        4: "Technical Institute",
+        5: "Engineering College",
+        6: "University",
+        7: "Engineering College",
+        8: "Engineering College",
+        9: "Technical Institute",
+    }
+    synthetic: list[dict[str, Any]] = []
+    seen_domains: set[str] = set()
+    for state, cities in _STATE_CITY_DATA.items():
+        for city in cities:
+            for index, name_format in enumerate(name_formats):
+                name = name_format.format(city=city)
+                domain = f"{_slugify(name)}.ac.in"
+                if domain in seen_domains:
+                    continue
+                seen_domains.add(domain)
+                synthetic.append(
+                    {
+                        "name": name,
+                        "domain": domain,
+                        "type": type_by_format[index],
+                        "industry": "Education",
+                        "city": city,
+                        "state": state,
+                        "country": "India",
+                        "description": (
+                            f"{name} is a higher education institution in "
+                            f"{city}, {state} with a training and placement "
+                            "cell supporting employability, internships and "
+                            "campus hiring drives."
+                        ),
+                        "sample_decision_maker": {"name": f"Placement Officer, {city}"},
+                        "sample_email": f"placements@{domain}",
+                        "sample_phone": "+91-11-20000000",
+                    }
+                )
+    return synthetic
+
+
 class MockSearchProvider(SearchProvider):
     """Returns deterministic, realistic sample results without any network
     access so the application can run end-to-end with ``SEARCH_PROVIDER=mock``.
+
+    A large deterministic synthetic dataset (one institution per
+    state/city/type) is layered on top of the curated samples so the mock
+    provider can answer granular state- and city-level queries with plenty
+    of results, mirroring how a real provider behaves at scale.
     """
 
-    async def search(self, query: str, limit: int = 10) -> list[dict[str, Any]]:
+    _synthetic_organizations: list[dict[str, Any]] | None = None
+
+    @classmethod
+    def _all_organizations(cls) -> list[dict[str, Any]]:
+        if cls._synthetic_organizations is None:
+            cls._synthetic_organizations = _generate_synthetic_organizations()
+        return list(_MOCK_ORGANIZATIONS) + cls._synthetic_organizations
+
+    async def search(
+        self, query: str, limit: int = 10, page: int = 1
+    ) -> list[dict[str, Any]]:
+        city, state = _parse_city_state(query)
+        organizations = self._all_organizations()
+        if city:
+            target_state = _CITY_TO_STATE[city]
+            organizations = [
+                org
+                for org in organizations
+                if org.get("city") and org["city"].lower() == city
+                and org.get("state") == target_state
+            ] or organizations
+        elif state:
+            organizations = [
+                org for org in organizations if org.get("state") and org["state"].lower() == state
+            ] or organizations
+
         results: list[dict[str, Any]] = []
-        organizations = list(_MOCK_ORGANIZATIONS)
         random.Random(query).shuffle(organizations)
-        for org in organizations[:limit]:
+        start = (max(page, 1) - 1) * limit
+        for org in organizations[start : start + limit]:
             results.append(
                 {
                     "title": org["name"],
